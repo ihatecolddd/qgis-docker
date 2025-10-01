@@ -1,5 +1,10 @@
 # Minimal requirements for QGIS Docker
 # Most scientific packages are already in the QGIS image
 spectral
-pyyaml
 python-dotenv
+pyqtgraph
+matplotlib
+numpy
+scipy
+pandas
+pyyaml
