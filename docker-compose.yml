@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  qgis:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      platforms:
+        - linux/amd64
+        - linux/arm64
+    image: qgis-enmap:3.34-ltr
+    container_name: qgis-enmap-container
+    platform: linux/amd64
+    
+    environment:
+      - DISPLAY=${DISPLAY:-:99}
+      - QT_QPA_PLATFORM=${QT_QPA_PLATFORM:-offscreen}
+      - PYTHONPATH=/workspace/plugins:/usr/share/qgis/python/plugins
+      - QGIS_LOG_FILE=/logs/qgis.log
+      - VALIDATION_LOG=/logs/validation.log
+      - TZ=${TZ:-UTC}
+    
+    volumes:
+      - ./workspace:/workspace
+      - ./logs:/logs
+      - ./config:/config
+      - qgis-profiles:/root/.local/share/QGIS/QGIS3
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    
+    ports:
+      - "5900:5900"
+      - "8888:8888"
+    
+    networks:
+      - qgis-network
+    
+    restart: unless-stopped
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+
+volumes:
+  qgis-profiles:
+    driver: local
+
+networks:
+  qgis-network:
+    driver: bridge

@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.Python
+env/
+venv/
+
+# QGIS
+*.qgs~
+*.qgz~
+
+# Data
+workspace/data/*
+!workspace/data/.gitkeep
+*.tif
+*.shp
+*.gpkg
+
+# Logs
+logs/*
+!logs/.gitkeep
+
+# Environment
+.env.local
+.DS_Store
