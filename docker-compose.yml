@@ -2,15 +2,11 @@ version: '3.8'
 
 services:
   qgis:
+    # Remove the image line to force building
     build:
       context: .
       dockerfile: docker/Dockerfile
-      platforms:
-        - linux/amd64
-        - linux/arm64
-    image: qgis-enmap:3.34-ltr
     container_name: qgis-enmap-container
-    platform: linux/amd64
     
     environment:
       - DISPLAY=${DISPLAY:-:99}
@@ -25,7 +21,6 @@ services:
       - ./logs:/logs
       - ./config:/config
       - qgis-profiles:/root/.local/share/QGIS/QGIS3
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     
     ports:
       - "5900:5900"

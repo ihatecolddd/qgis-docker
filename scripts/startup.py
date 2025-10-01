@@ -1,34 +1,31 @@
 #!/usr/bin/env python3
+"""
+"""
 import os
 import sys
-import json
-import datetime
-import subprocess
+import time
 from pathlib import Path
 
-print("Starting QGIS Docker environment...")
-print(f"Timestamp: {datetime.datetime.now()}")
-print(f"Platform: {os.environ.get('TARGETPLATFORM', 'unknown')}")
+print("QGIS Docker Environment Starting...")
 
-# Basic validation
+# Set environment for headless operation
+os.environ['QT_QPA_PLATFORM'] = 'offscreen'
+os.environ['XDG_RUNTIME_DIR'] = '/tmp/runtime-root'
+
+# Test QGIS Python API (not the GUI)
 try:
-    from qgis.core import Qgis
-    print(f"[OK] QGIS {Qgis.version()} loaded")
+    from qgis.core import Qgis, QgsApplication
+    print(f"✓ QGIS {Qgis.version()} Python API ready")
+    print("✓ Container is running in headless mode")
 except ImportError as e:
-    print(f"[ERROR] Failed to load QGIS: {e}")
-    sys.exit(1)
+    print(f"✗ Failed to load QGIS Python API: {e}")
 
-# Create log directory if it doesn't exist
-Path("/logs").mkdir(exist_ok=True)
+# Keep container running
+print("Container ready for commands. Use 'docker-compose exec qgis <command>'")
+print("Examples:")
+print("  docker-compose exec qgis qgis_process list")
+print("  docker-compose exec qgis python3 /workspace/your_script.py")
 
-# Log startup
-log_file = Path("/logs/startup.log")
-with open(log_file, "a") as f:
-    f.write(f"{datetime.datetime.now()} - Environment started\n")
-
-# Start services
-if len(sys.argv) > 1:
-    cmd = sys.argv[1:]
-    subprocess.run(cmd)
-else:
-    print("Environment ready!")
+# Keep the container alive
+while True:
+    time.sleep(3600)  # Sleep for an hour, repeat

@@ -1,25 +1,85 @@
+# Docker
+.docker/
+docker-compose.override.yml
+*.log
+
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
 .Python
 env/
 venv/
+ENV/
+.venv/
 
 # QGIS
 *.qgs~
 *.qgz~
+.qgis_cache/
 
-# Data
+# Data files (large files, don't version control)
+*.tif
+*.tiff
+*.shp
+*.dbf
+*.shx
+*.prj
+*.gpkg
+*.sqlite
+*.geojson
+*.kml
+*.gdb/
+*.nc
+*.hdf
+*.h5
+*.zip
+*.tar.gz
+*.7z
+
+# Workspace - only track structure, not content
 workspace/data/*
 !workspace/data/.gitkeep
-*.tif
-*.shp
-*.gpkg
+workspace/projects/*
+!workspace/projects/.gitkeep
+workspace/plugins/*
+!workspace/plugins/.gitkeep
+
+# Test files and temporary work
+workspace/*.py
+workspace/*.txt
+workspace/test_*
 
 # Logs
 logs/*
 !logs/.gitkeep
+*.log
 
-# Environment
+# Environment variables (may contain secrets)
 .env.local
+.env.*.local
+
+# OS files
 .DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+New Text Document.txt
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+.jupyter/
+.ipynb_checkpoints/
+
+# Temporary files
+tmp/
+temp/
+*.bak
+*.backup
+cache/
