@@ -14,13 +14,16 @@ docker-compose up -d
 # Validate
 docker-compose exec qgis python3 /scripts/validate_environment.py
 
+# Test
+docker-compose exec qgis python3 -c "from qgis.core import Qgis; print(Qgis.version())"`
+
 # Stop
 docker-compose down
 ```
 
 ## Directory Structure
 
-- `workspace/` - Your GIS files
+- `workspace` - Your GIS files
 - `logs/` - Application logs
 - `scripts/` - Utility scripts
 - `docker/` - Docker configuration
