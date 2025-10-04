@@ -2,8 +2,7 @@ services:
   qgis:
     image: ghcr.io/ihatecolddd/qgis-docker:latest
     container_name: qgis-enmap-container
-    platform: linux/arm64
-    
+    platform: linux/amd64
     environment:
       - DISPLAY=:1
       - PYTHONPATH=/workspace/plugins:/usr/share/qgis/python/plugins
