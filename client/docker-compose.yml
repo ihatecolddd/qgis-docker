@@ -1,0 +1,24 @@
+services:
+  qgis:
+    image: ghcr.io/ihatecolddd/qgis-docker:latest
+    container_name: qgis-enmap-container
+    platform: linux/arm64
+    
+    environment:
+      - DISPLAY=:1
+      - PYTHONPATH=/workspace/plugins:/usr/share/qgis/python/plugins
+    
+    volumes:
+      - ./workspace:/workspace
+      - ./logs:/logs
+      - ./config:/config
+      - qgis-profiles:/root/.local/share/QGIS/QGIS3
+    
+    ports:
+      - "5900:5900"
+      - "8888:8888"
+    
+    restart: unless-stopped
+
+volumes:
+  qgis-profiles:

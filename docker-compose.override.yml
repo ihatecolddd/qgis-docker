@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  qgis:
+    # Let the startup script run
+    command: ["/scripts/startup_vnc.sh"]
+    restart: unless-stopped

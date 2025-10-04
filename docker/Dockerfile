@@ -5,44 +5,37 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV QGIS_PREFIX_PATH=/usr
 ENV QGIS_PLUGINPATH=/usr/share/qgis/python/plugins
-ENV DISPLAY=:99
+ENV DISPLAY=:1
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-dev \
-    python3-numpy \
-    python3-scipy \
-    python3-matplotlib \
-    python3-pandas \
-    python3-sklearn \
-    python3-gdal \
-    python3-pyqt5 \
     git \
-    wget \
-    curl \
-    unzip \
-    vim \
+    xvfb \
+    x11vnc \
+    fluxbox \
+    novnc \
+    websockify \
+    net-tools \
+    procps \
     && rm -rf /var/lib/apt/lists/*
 
-# Create working directories
-RUN mkdir -p /workspace/data /workspace/projects /workspace/plugins /config /logs /scripts
+RUN mkdir -p /workspace/data /workspace/projects /workspace/plugins \
+    /config /logs /scripts /tests
 
-# Install Python packages for EnMAP-Box
 RUN pip3 install --break-system-packages \
-    pyqtgraph \
+    dask \
+    distributed \
     spectral \
-    matplotlib \
-    pyyaml \
-    python-dotenv
+    python-dotenv \
+    pyqtgraph
 
-# Install EnMAP-Box
 RUN cd /usr/share/qgis/python/plugins && \
-    git clone --depth 1 https://github.com/EnMAP-Box/enmap-box.git enmapbox || \
-    echo "EnMAP-Box already exists or failed to clone"
+    git clone --depth 1 https://github.com/EnMAP-Box/enmap-box.git enmapbox || true
 
-# Set working directory
+COPY scripts/startup_vnc.sh /scripts/startup_vnc.sh
+RUN chmod +x /scripts/startup_vnc.sh
+
 WORKDIR /workspace
 
-# Keep container running
-CMD ["tail", "-f", "/dev/null"]
+CMD ["/scripts/startup_vnc.sh"]
